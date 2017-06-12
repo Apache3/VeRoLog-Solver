@@ -26,7 +26,7 @@ public class Depot extends Location{
     public int getNbRemainingTools(int ID)
     {
         int remainingTools = 0;
-        Iterator<Tool> it = toolList.iterator();
+        Iterator<ToolType> it = toolList.iterator();
         
         while ( it.hasNext() )
         {

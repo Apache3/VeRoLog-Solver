@@ -19,6 +19,8 @@ public class Request {
     private final int nbDays;
     private final int toolID;
     private final int nbTools;
+    private boolean delivered;
+    private boolean pickedUp;
     
     public Request(int requestID, int customerID, int firstDay, int lastDay,
                    int nbDays, int toolID, int nbTools)
@@ -30,6 +32,24 @@ public class Request {
         this.nbDays = nbDays;
         this.toolID = toolID;
         this.nbTools =nbTools;
+        this.delivered = false;
+        this.pickedUp = false;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
+
+    public boolean isPickedUp() {
+        return pickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
     }
     
     public static ArrayList<Request> orderByFirstDay(ArrayList<Request> requests)

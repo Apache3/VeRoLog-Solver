@@ -21,7 +21,7 @@ public class VeRoLog_Solver {
         /*System.out.println("args: ");
         System.out.println(args[0]);
         System.out.println();*/
-        FileParser fileParser = new FileParser("Data/Data1.txt");
+        FileParser fileParser = new FileParser("Data/ORTEC_Test_09.txt");
         fileParser.parse();
         FileData fileData = FileData.getInstance();
         System.out.println(fileData.toString(false));

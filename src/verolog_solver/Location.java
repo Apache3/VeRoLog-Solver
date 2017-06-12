@@ -16,7 +16,7 @@ public class Location {
     
     protected final int ID;
     protected final Point2D.Double position;
-    protected ArrayList<Tool> toolList;
+    protected ArrayList<ToolType> toolList;
     
     
     public Location(int ID,int x, int y)
@@ -32,6 +32,20 @@ public class Location {
         int dist = (int)position.distance(location.getPosition());
         return dist;
     }
+    
+    public static Location getByID(int ID, ArrayList<Location> locationList)
+    {
+        Location location = null;
+        for (int i = 0 ; i < locationList.size() ; i++)
+        {
+            if (locationList.get(i).getID() == ID)
+            {
+                location = locationList.get(i);
+            }
+        }
+        
+        return location;
+    }
 
     public int getID() {
         return ID;
@@ -41,16 +55,16 @@ public class Location {
         return position;
     }
     
-    public ArrayList<Tool> getToolList() {
+    public ArrayList<ToolType> getToolList() {
         return toolList;
     }
     
-    public void addTools(ArrayList<Tool> toolList)
+    public void addTools(ArrayList<ToolType> toolList)
     {
         this.toolList.addAll(toolList);
     }
     
-    public void addTool(Tool tool)
+    public void addTool(ToolType tool)
     {
         this.toolList.add(tool);
     }

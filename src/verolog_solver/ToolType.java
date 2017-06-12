@@ -4,26 +4,52 @@
  * and open the template in the editor.
  */
 package verolog_solver;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author Apache
  */
-public class Tool {
+public class ToolType {
     private final int ID;
     private final int size;
-    //private static int nb_available;
+    private int remainingTools;
     private final int cost;
     
-    public Tool(int ID,int size, int cost)
+    public ToolType(int ID,int size, int cost, int nbTools)
     {
         this.ID = ID;
         this.size = size;
         this.cost = cost;
+        this.remainingTools = nbTools;
     }
 
+    public static ToolType getByID(int ID, ArrayList<ToolType> toolList)
+    {
+        ToolType toolType = null;
+        for (int i = 0 ; i < toolList.size() ; i++)
+        {
+            if (toolList.get(i).getID() == ID)
+            {
+                toolType = toolList.get(i);
+            }
+        }
+        
+        return toolType;
+    }
+    
     public int getID() {
         return ID;
+    }
+
+    public int getRemainingTools() {
+        return remainingTools;
+    }
+    
+    public void addTools(int nbTools)
+    {
+        this.remainingTools +=nbTools;
     }
 
     public int getSize() {

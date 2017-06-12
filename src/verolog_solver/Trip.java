@@ -17,38 +17,42 @@ public class Trip {
     private int distance; //total distance of the trip
     private int cost; // total cost of the trip
     private LinkedList<Location> stops; //list of the trip's stops.
-    private Depot depot;
-    
-    
-    public Trip(int date,Depot depot)
+   
+    public Trip(int date)
     {
         cost = 0;
         distance = 0;
         this.date = date;
         stops = new LinkedList<>();
-        this.depot = depot;
     }
 
     
     
     public void addStop(Location location)
     {
+        FileData fileData = FileData.getInstance();
         if( stops.isEmpty() )
         {
-            cost += FileData.getInstance().getVehiculeDayCost();
-            cost += location.distanceTo(depot) 
-                    * FileData.getInstance().getDistanceCost();
-            distance += location.distanceTo(depot);
+            cost += fileData.getVehiculeDayCost();
+            cost += location.distanceTo(fileData.getLocations().get(0)) 
+                    * fileData.getDistanceCost();
+            distance += location.distanceTo(fileData.getLocations().get(0));
             
         }
         else
         {
             cost += location.distanceTo(stops.getLast()) 
-                    * FileData.getInstance().getDistanceCost();
+                    * fileData.getDistanceCost();
             distance += location.distanceTo(stops.getLast());
         }
         
         stops.add(location);
+    }
+    
+    public void finalize()
+    {
+        Depot depot = (Depot)FileData.getInstance().getLocations().get(0);
+        addStop(depot);
     }
     
     public int getDate() {

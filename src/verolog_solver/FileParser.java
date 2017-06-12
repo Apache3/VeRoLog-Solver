@@ -118,15 +118,14 @@ public class FileParser {
                 
                 for (int j = 1; j <= nbTools ; j++  )
                 {
-                    String[] toolData = lines[ i + j ].split("[ ]+");
+                    String[] toolData = lines[ i + j ].split("[ \r\t]+");
                     int toolID     = Integer.parseInt(toolData[0]);
                     int toolSize   = Integer.parseInt(toolData[1]);
                     int toolNumber = Integer.parseInt(toolData[2]);
                     int toolCost   = Integer.parseInt(toolData[3]);
-                    for (int k = 0 ; k < toolNumber ; k++)
-                    {
-                        fileData.createTool(toolID, toolSize, toolCost);
-                    }
+                    
+                    fileData.createTool(toolID, toolSize, toolCost, toolNumber);
+                    
                 }
                 i+=nbTools;
                 
@@ -139,7 +138,7 @@ public class FileParser {
                 
                 for (int j = 1; j <= nbLocations ; j++  )
                 {
-                    String[] locationData = lines[ i + j ].split("[ ]+");
+                    String[] locationData = lines[ i + j ].split("[ \r\t]+");
                     int locationID = Integer.parseInt(locationData[0]);
                     int x          = Integer.parseInt(locationData[1]);
                     int y          = Integer.parseInt(locationData[2]);
@@ -155,7 +154,7 @@ public class FileParser {
                 
                 for (int j = 1; j <= nbRequests ; j++  )
                 {
-                    String[] requestData = lines[ i + j ].split("[ ]+");
+                    String[] requestData = lines[ i + j ].split("[ \r\t]+");
                     int requestID  = Integer.parseInt(requestData[0]);
                     int customerID = Integer.parseInt(requestData[1]);
                     int firstDay   = Integer.parseInt(requestData[2]);

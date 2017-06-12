@@ -30,6 +30,17 @@ public class Solution {
         totalDistance += trip.getDistance();
         totalCost += trip.getCost();
     }
+    
+    public boolean equals(Solution solution)
+    {
+        boolean equivalent;
+        
+        equivalent = (solution.getTotalCost() == totalCost) 
+                  && (solution.getTotalDistance() == totalDistance)
+                  && (solution.getTrips().size() == trips.size());
+        
+        return equivalent;
+    }
 
     public LinkedList<Trip> getTrips() {
         return trips;

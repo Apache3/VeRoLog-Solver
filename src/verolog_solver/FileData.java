@@ -26,7 +26,7 @@ public class FileData {
     private int vehiculeDayCost;
     private int distanceCost;
     private int nbTools;
-    private ArrayList<Tool> toolList;
+    private ArrayList<ToolType> toolList;
     private int nbCoordinates;
     private ArrayList<Location> locations; 
     private int nbRequests;
@@ -45,7 +45,7 @@ public class FileData {
         vehiculeDayCost = 0;
         distanceCost = 0;
         nbTools = 0;
-        toolList = new ArrayList<Tool>();
+        toolList = new ArrayList<ToolType>();
         nbCoordinates = 0;
         locations = new ArrayList<Location>(); 
         nbRequests = 0;
@@ -144,13 +144,13 @@ public class FileData {
         this.nbTools = nbTools;
     }
     
-    public void createTool(int ID, int size, int cost)
+    public void createTool(int ID, int size, int cost, int nbTools)
     {
-        Tool newTool = new Tool(ID, size, cost);
-        toolList.add(newTool);
+        ToolType newToolType = new ToolType(ID, size, cost, nbTools);
+        toolList.add(newToolType);
     }
 
-    public ArrayList<Tool> getToolList() {
+    public ArrayList<ToolType> getToolList() {
         return toolList;
     }
 
