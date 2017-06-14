@@ -117,4 +117,10 @@ public class Request {
     
     return str;
     }
+    
+    public static Request getEmptyRequest()
+    {
+        Request emptyRequest = new Request(0,0,0,0,0,0,0);
+        return emptyRequest;
+    }
 }

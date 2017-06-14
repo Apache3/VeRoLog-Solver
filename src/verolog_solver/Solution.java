@@ -6,6 +6,7 @@
 package verolog_solver;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -52,5 +53,33 @@ public class Solution {
 
     public int getTotalCost() {
         return totalCost;
+    }
+    
+    public String toString()
+    {
+        String str = "";
+        LinkedList<Trip> searchList = new LinkedList<>(trips);
+        //order searchList by date somewhere
+        str += "DATASET = " + FileData.getInstance().getDataset() + "\n";
+        str += "NAME = " +FileData.getInstance().getName() + "\n";
+        
+        for (int day = 1; day <= FileData.getInstance().getDays() ; day++)
+        {
+            str += "\nDAY = " + day +"\n";
+            Iterator<Trip> it = searchList.iterator();
+            while (it.hasNext())
+            {
+                Trip trip = it.next();
+                if (trip.getDate() == day)
+                {
+                    //str += it.
+                    searchList.remove(trip);
+                }
+            }
+            
+        }
+                
+                
+        return str;
     }
 }

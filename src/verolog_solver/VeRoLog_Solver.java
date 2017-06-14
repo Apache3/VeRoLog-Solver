@@ -7,6 +7,7 @@ package verolog_solver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -21,17 +22,32 @@ public class VeRoLog_Solver {
         /*System.out.println("args: ");
         System.out.println(args[0]);
         System.out.println();*/
-        FileParser fileParser = new FileParser("Data/ORTEC_Test_09.txt");
+        FileParser fileParser = new FileParser("Data/Data1.txt");
         fileParser.parse();
         FileData fileData = FileData.getInstance();
         System.out.println(fileData.toString(false));
-        ArrayList<Request> rqlist = Request.orderByFirstDay(fileData.getRequests());
+        ArrayList<Location> locations = fileData.getLocations();
+        ArrayList<Request> rqList = Request.orderByFirstDay(fileData.getRequests());
         
-        for (int i = 0; i< rqlist.size() ; i++)
+        /*for (int i = 0; i< rqlist.size() ; i++)
         {
             System.out.println(rqlist.get(i).toString());
+        }*/
+        /*try
+        {
+            TimeUnit.SECONDS.sleep(1);
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }*/
+        Trip trip = new Trip(1);
+        trip.addStop(locations.get(1), rqList.get(0), true);
+        trip.goToDepot();
         
+        
+        System.out.println("--------PRINT OF A TRIP");
+        System.out.println(trip.toString(true));
        //FileData fileData = fileParser.getFileData();
         //System.out.println(fileData.toString(false));
         //ArrayList<Location> locations = fileData.getLocations();

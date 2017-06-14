@@ -66,6 +66,7 @@ public class ToolType {
         str = "\nTool ID: " + ID + "\n";
         str+= "Size: " + size + "\n"; 
         str+= "Cost: " + cost + "\n";
+        str+= "Nb Tools: " + remainingTools + "\n";
         
         return str;
     }
