@@ -13,37 +13,38 @@ import java.util.Iterator;
  * @author Apache
  */
 public class Solution {
-    
-    private LinkedList<Trip> trips;
+
+    private ArrayList<Trip> trips;
     private int totalDistance;
     private int totalCost;
-    
+
     public Solution()
     {
-        trips = new LinkedList<>();
+        trips = new ArrayList<>();
         totalDistance = 0;
         totalCost = 0;
     }
-    
+
     public void addTrip(Trip trip)
     {
         trips.add(trip);
         totalDistance += trip.getDistance();
         totalCost += trip.getCost();
+        trips = Trip.orderByDate(trips);
     }
-    
+
     public boolean equals(Solution solution)
     {
         boolean equivalent;
-        
-        equivalent = (solution.getTotalCost() == totalCost) 
+
+        equivalent = (solution.getTotalCost() == totalCost)
                   && (solution.getTotalDistance() == totalDistance)
                   && (solution.getTrips().size() == trips.size());
-        
+
         return equivalent;
     }
 
-    public LinkedList<Trip> getTrips() {
+    public ArrayList<Trip> getTrips() {
         return trips;
     }
 
@@ -55,31 +56,134 @@ public class Solution {
         return totalCost;
     }
     
+    private int getNumberVehiculeByDay(int day)
+    {
+        int nbVehicule= 0;
+        Iterator<Trip> it = trips.iterator();
+        while (it.hasNext())
+        {
+            Trip trip = it.next();
+            if (trip.getDate() == day)
+            {
+                nbVehicule++;
+            }
+        }
+        return nbVehicule;
+    }
+
     public String toString()
     {
+        return toString(false);
+    }
+
+    public String toString(boolean verbose)
+    {
         String str = "";
-        LinkedList<Trip> searchList = new LinkedList<>(trips);
+        //LinkedList<Trip> searchList = new LinkedList<>(trips);
         //order searchList by date somewhere
         str += "DATASET = " + FileData.getInstance().getDataset() + "\n";
         str += "NAME = " +FileData.getInstance().getName() + "\n";
-        
-        for (int day = 1; day <= FileData.getInstance().getDays() ; day++)
+
+
+        Iterator<Trip> it = trips.iterator();
+        int day = 1;
+        int vehiculeNbr = 1;
+        int[] startDepot = new int[FileData.getInstance().getNbTools()];//previous finish + startload of all trips
+        int[] finishDepot = new int[FileData.getInstance().getNbTools()];//start + total returned tools
+        for ( int i = 0 ; i < startDepot.length ; i++)
         {
-            str += "\nDAY = " + day +"\n";
-            Iterator<Trip> it = searchList.iterator();
-            while (it.hasNext())
+           
+            finishDepot[i] = FileData.getInstance().getToolList().get(i).getRemainingTools();
+            startDepot[i] = finishDepot[i];
+        }
+        
+        String header = "";
+        String allTripStr = "";
+        while (it.hasNext())
+        {
+            Trip trip = it.next();
+            String tripStr = trip.toString(verbose);
+            if ( trip.getDate() == day)
             {
-                Trip trip = it.next();
-                if (trip.getDate() == day)
+                
+                
+                
+            }
+            if (trip.getDate() > day)
+            {
+                vehiculeNbr = 1;
+                header = "\nDAY = " + day +"\n";
+                header += "NUMBER_OF_VEHICULES = " + getNumberVehiculeByDay(day)+ "\n";
+                if ( verbose )
                 {
-                    //str += it.
-                    searchList.remove(trip);
+                    String startDepotStr = "";
+                    String finishDepotStr = "";
+                    for (int i = 0 ; i < startDepot.length ; i++)
+                    {
+                        startDepotStr += startDepot[i] + "\t";
+                        finishDepotStr += finishDepot[i] +"\t";
+                    }
+                    header += "START_DEPOT = " + startDepotStr + "\n";
+                    header += "FINISH_DEPOT = " + finishDepotStr +"\n";
+                    for (int i = 0 ; i < startDepot.length ; i++)
+                    {
+                        startDepot[i] = finishDepot[i];
+                        
+                    }
+                    
+                    
+                    
                 }
+                day = trip.getDate();
+                str += header + allTripStr + "\n";
+                allTripStr = "";
             }
             
+            for ( int i = 0 ; i< startDepot.length ; i++)
+            {
+                startDepot[i] += trip.getInitialToolLoad()[i];
+            }
+            for ( int i = 0 ; i< finishDepot.length ; i++)
+            {
+                //finishDepot[i] = startDepot[i];
+                finishDepot[i] +=  trip.getTotalReturnedTools()[i];
+            }
+            tripStr = (vehiculeNbr + "\t").concat(tripStr);
+            if (verbose)
+            {
+                tripStr = tripStr.replaceAll("\n", "\n" + vehiculeNbr + "\t");
+            }
+            
+            allTripStr += tripStr + "\n";
+            if (!it.hasNext())
+            {
+                vehiculeNbr = 1;
+                header = "\nDAY = " + day +"\n";
+                header += "NUMBER_OF_VEHICULES = " + getNumberVehiculeByDay(day)+ "\n";
+                if ( verbose )
+                {
+                    String startDepotStr = "";
+                    String finishDepotStr = "";
+                    for (int i = 0 ; i < startDepot.length ; i++)
+                    {
+                        startDepotStr += startDepot[i] + "\t";
+                        finishDepotStr += finishDepot[i] +"\t";
+                    }
+                    header += "START_DEPOT = " + startDepotStr + "\n";
+                    header += "FINISH_DEPOT = " + finishDepotStr +"\n";
+                    
+                    
+                    
+                    
+                }
+                day = trip.getDate();
+                str += header + allTripStr + "\n";
+                allTripStr = "";
+            }
+            vehiculeNbr++;
+            
+            
         }
-                
-                
         return str;
     }
 }

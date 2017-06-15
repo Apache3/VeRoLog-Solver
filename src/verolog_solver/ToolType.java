@@ -47,10 +47,10 @@ public class ToolType {
         return remainingTools;
     }
     
-    public void addTools(int nbTools)
+    /*public void addTools(int nbTools)
     {
         this.remainingTools +=nbTools;
-    }
+    }*/
 
     public int getSize() {
         return size;

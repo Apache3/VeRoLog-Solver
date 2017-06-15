@@ -55,21 +55,21 @@ public class Request {
     public static ArrayList<Request> orderByFirstDay(ArrayList<Request> requests)
     {
         ArrayList<Request> orderedRequests = new ArrayList<>();
-        
-        while (!requests.isEmpty())
+        ArrayList<Request> messyRequests = new ArrayList(requests);
+        while (!messyRequests.isEmpty())
         {
             int minDayIndex = 0;
-            for (int i = 0 ; i < requests.size() ; i++)
+            for (int i = 0 ; i < messyRequests.size() ; i++)
             {   
-                int currentFirstDay = requests.get(i).getFirstDay();
-                int minFirstDay = requests.get(minDayIndex).getFirstDay();
+                int currentFirstDay = messyRequests.get(i).getFirstDay();
+                int minFirstDay = messyRequests.get(minDayIndex).getFirstDay();
                 
                 if ( currentFirstDay < minFirstDay )
                 {
                     minDayIndex = i;
                 }
             }    
-            orderedRequests.add( requests.remove(minDayIndex) );
+            orderedRequests.add( messyRequests.remove(minDayIndex) );
         }
         
         

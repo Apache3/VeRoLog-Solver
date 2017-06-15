@@ -12,7 +12,7 @@ import java.util.Iterator;
  */
 public class TripPlanner {
     
-    public Solution planTrips()
+    /*public Solution planTrips()
     {
         Solution solution = new Solution();
         FileData fileData = FileData.getInstance();
@@ -46,6 +46,33 @@ public class TripPlanner {
             pickUpTrip.finalize();
             solution.addTrip(pickUpTrip);
             
+            
+        }
+        
+        return solution;
+    }*/
+    
+    public Solution answerASAP(ArrayList<Request> rqList){
+        Solution solution = new Solution();
+        ArrayList<Request> requestList = Request.orderByFirstDay(rqList);
+        //Iterator<Request> it = requestList.iterator();
+        while ( !requestList.isEmpty() )
+        //for (int rqIdx = 0 ; rqIdx < requestList.size() ; rqIdx++)
+        {
+            //Request req = requestList.get(rqIdx);
+            Request req = requestList.get(0);
+            int firstDay = req.getFirstDay();
+            int nbDays = req.getNbDays();
+            //if (solution.)
+            Trip trip = new Trip(firstDay);
+            trip.addStop(req, true);
+            trip.goToDepot();
+            solution.addTrip(trip);
+            trip = new Trip(firstDay+nbDays);
+            trip.addStop(req, false);
+            trip.goToDepot();
+            solution.addTrip(trip);
+            requestList.remove(req);
             
         }
         
