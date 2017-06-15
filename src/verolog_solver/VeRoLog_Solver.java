@@ -22,7 +22,7 @@ public class VeRoLog_Solver {
         /*System.out.println("args: ");
         System.out.println(args[0]);
         System.out.println();*/
-        FileParser fileParser = new FileParser("Data/Data1.txt");
+        FileParser fileParser = new FileParser("Data/ORTEC_Test_03.txt");
         fileParser.parse();
         FileData fileData = FileData.getInstance();
         System.out.println(fileData.toString(false));
@@ -42,12 +42,54 @@ public class VeRoLog_Solver {
             e.printStackTrace();
         }*/
         Trip trip = new Trip(1);
-        trip.addStop(locations.get(1), rqList.get(0), true);
+        trip.addStop(rqList.get(0), true);
+        trip.addStop(rqList.get(1), true);
+        trip.addStop(rqList.get(2), true);
+        trip.goToDepot();
+        trip.addStop( rqList.get(0), false);
+        trip.addStop(rqList.get(1), false);
+        
+        trip.goToDepot();
+        trip.addStop(rqList.get(5), true);
+        trip.addStop(rqList.get(3), true);
+        trip.addStop(rqList.get(4), true);
+        trip.addStop(rqList.get(2), false);
+        trip.goToDepot();
+        trip.addStop(rqList.get(5), false);
+        trip.addStop(rqList.get(3), false);
+        trip.goToDepot();
+        trip.addStop(rqList.get(4), false);
         trip.goToDepot();
         
+        Trip trip2 = new Trip(2);
+        trip2.addStop(rqList.get(0), true);
+        trip2.addStop(rqList.get(1), true);
+        trip2.addStop(rqList.get(2), true);
+        trip2.goToDepot();
+        trip2.addStop( rqList.get(0), false);
+        trip2.addStop(rqList.get(1), false);
         
-        System.out.println("--------PRINT OF A TRIP");
-        System.out.println(trip.toString(true));
+        trip2.goToDepot();
+        trip2.addStop(rqList.get(5), true);
+        trip2.addStop(rqList.get(3), true);
+        trip2.addStop(rqList.get(4), true);
+        trip2.addStop(rqList.get(2), false);
+        trip2.goToDepot();
+        trip2.addStop(rqList.get(5), false);
+        trip2.addStop(rqList.get(3), false);
+        trip2.goToDepot();
+        trip2.addStop(rqList.get(4), false);
+        trip2.goToDepot();
+        
+        TripPlanner tripPlanner = new TripPlanner();
+        Solution sol = tripPlanner.answerASAP(rqList);
+        //Solution sol = new Solution();
+        //sol.addTrip(trip);
+        //sol.addTrip(trip2);
+        
+        
+        System.out.println("\n--------PRINT OF A SOLUTION--------\n");
+        System.out.println(sol.toString(true));
        //FileData fileData = fileParser.getFileData();
         //System.out.println(fileData.toString(false));
         //ArrayList<Location> locations = fileData.getLocations();
