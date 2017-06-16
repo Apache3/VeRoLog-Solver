@@ -22,12 +22,13 @@ public class VeRoLog_Solver {
         /*System.out.println("args: ");
         System.out.println(args[0]);
         System.out.println();*/
-        FileParser fileParser = new FileParser("Data/ORTEC_Test_03.txt");
+        long start = System.currentTimeMillis();
+        FileParser fileParser = new FileParser("Data/ORTEC_Test_02.txt");
         fileParser.parse();
         FileData fileData = FileData.getInstance();
         System.out.println(fileData.toString(false));
-        ArrayList<Location> locations = fileData.getLocations();
-        ArrayList<Request> rqList = Request.orderByFirstDay(fileData.getRequests());
+        //ArrayList<Location> locations = fileData.getLocations();
+        //ArrayList<Request> rqList = Request.orderByFirstDay(fileData.getRequests());
         
         /*for (int i = 0; i< rqlist.size() ; i++)
         {
@@ -41,7 +42,7 @@ public class VeRoLog_Solver {
         {
             e.printStackTrace();
         }*/
-        Trip trip = new Trip(1);
+        /*Trip trip = new Trip(1);
         trip.addStop(rqList.get(0), true);
         trip.addStop(rqList.get(1), true);
         trip.addStop(rqList.get(2), true);
@@ -79,17 +80,28 @@ public class VeRoLog_Solver {
         trip2.addStop(rqList.get(3), false);
         trip2.goToDepot();
         trip2.addStop(rqList.get(4), false);
-        trip2.goToDepot();
+        trip2.goToDepot();*/
         
         TripPlanner tripPlanner = new TripPlanner();
-        Solution sol = tripPlanner.answerASAP(rqList);
+        long readingTime = System.currentTimeMillis() - start;
+        start = System.currentTimeMillis();
+        Solution sol = tripPlanner.answerASAP(fileData.getRequests());
+        long elapsedTime = System.currentTimeMillis() -start;
+        //elapsedTime;
         //Solution sol = new Solution();
         //sol.addTrip(trip);
         //sol.addTrip(trip2);
         
-        
+        start = System.currentTimeMillis();
         System.out.println("\n--------PRINT OF A SOLUTION--------\n");
         System.out.println(sol.toString(true));
+        long printingTime = System.currentTimeMillis() - start;
+        System.out.println("Reading Time:");
+        System.out.println(readingTime + " ms");
+        System.out.println("Calculation time:");
+        System.out.println(elapsedTime + " ms");
+        System.out.println("Printing Time:");
+        System.out.println(printingTime + " ms");
        //FileData fileData = fileParser.getFileData();
         //System.out.println(fileData.toString(false));
         //ArrayList<Location> locations = fileData.getLocations();

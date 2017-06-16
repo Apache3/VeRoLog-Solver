@@ -55,6 +55,7 @@ public class TripPlanner {
     public Solution answerASAP(ArrayList<Request> rqList){
         Solution solution = new Solution();
         ArrayList<Request> requestList = Request.orderByFirstDay(rqList);
+        ArrayList<Request> waitingList = new ArrayList();
         //Iterator<Request> it = requestList.iterator();
         while ( !requestList.isEmpty() )
         //for (int rqIdx = 0 ; rqIdx < requestList.size() ; rqIdx++)
@@ -63,7 +64,55 @@ public class TripPlanner {
             Request req = requestList.get(0);
             int firstDay = req.getFirstDay();
             int nbDays = req.getNbDays();
-            //if (solution.)
+            int requestID = req.getRequestID();
+            int customerID = req.getCustomerID();
+            int lastDay = req.getLastDay();
+            int nbTools = req.getNbTools();
+            int toolID = req.getToolID();
+            Iterator<Request> iter = waitingList.iterator();
+            /*while (iter.hasNext())
+            {
+                Request wReq = iter.next();
+                if (wReq.getNbTools() <= solution.getNbToolAvailable(wReq.getToolID(), firstDay))
+                {
+                    Trip trip = new Trip(firstDay);
+                    trip.addStop(req, true);
+                    trip.goToDepot();
+                    solution.addTrip(trip);
+                    trip = new Trip(firstDay+wReq.getNbDays());
+                    trip.addStop(req, false);
+                    trip.goToDepot();
+                    solution.addTrip(trip);
+                    iter.remove();
+                }
+            }*/
+            
+            //if ( !req.isDelivered() ) 
+            //{
+                /*if (nbTools > solution.getNbToolAvailable(toolID, firstDay))
+                {
+                    waitingList.add(req);
+                    requestList.remove(req);
+                }
+                else
+                {
+                    Trip trip = new Trip(firstDay);
+                    trip.addStop(req, true);
+                    trip.goToDepot();
+                    solution.addTrip(trip);
+                    
+                    trip = new Trip(firstDay+nbDays);
+                    trip.addStop(req, false);
+                    trip.goToDepot();
+                    solution.addTrip(trip);
+                    requestList.remove(req);
+                }*/
+            //}
+            
+            /*while (solution.getNbToolAvailable(toolID, firstDay) < nbTools)
+            {
+                firstDay++;
+            }*/
             Trip trip = new Trip(firstDay);
             trip.addStop(req, true);
             trip.goToDepot();

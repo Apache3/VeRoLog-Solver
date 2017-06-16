@@ -45,6 +45,18 @@ public class Trip {
         goToDepot();
         
     }
+    public Trip (Trip trip)
+    {
+        cost = trip.getCost();
+        distance = trip.getDistance();
+        date = trip.getDate();
+        stops = new LinkedList(trip.stops);
+        answeredRequests = new LinkedList(trip.answeredRequests);
+        depot = FileData.getInstance().getLocations().get(0);
+        fileData = FileData.getInstance();
+        tripSense = new ArrayList(trip.tripSense);
+        loadedTools = new ArrayList(trip.loadedTools);
+    }
 
     
     
@@ -62,10 +74,12 @@ public class Trip {
         if ( delivery )
         {
             tripSense.add(1);
+            request.setDelivered(true);
         }
         else
         {
             tripSense.add(-1);
+            request.setPickedUp(true);
         }
         
         
@@ -76,8 +90,6 @@ public class Trip {
             int nbTools = request.getNbTools();
             int [] toolLoad = loadedTools.get( loadedTools.size()-1);
             toolLoad[toolID] += -tripSense.get(tripSense.size()-1) * nbTools;
-            //loadedTools[toolID - 1] = -tripSense.get(tripSense.size()-1) * 
-            //                                 request.getNbTools();
         }
         
         /*ToolType tool = ToolType.getByID(request.getToolID(), fileData.getToolList());
@@ -121,6 +133,36 @@ public class Trip {
         
         
     }
+    
+    public void removeInitialDepot()
+    {
+        if (stops.get(0).getID() == depot.getID())
+        {
+            stops.removeFirst();
+            answeredRequests.removeFirst();
+            loadedTools.remove(0);
+            tripSense.remove(0);
+            int deltaDist = stops.getFirst().distanceTo(depot);
+            distance -= deltaDist;
+            cost -= deltaDist * fileData.getDistanceCost();
+        }
+    }
+    
+    public void removeFinalDepot()
+    {
+        if (stops.get(0).getID() == depot.getID())
+        {
+            stops.removeLast();
+            answeredRequests.removeLast();
+            loadedTools.remove(loadedTools.size()-1);
+            tripSense.remove(tripSense.size() - 1 );
+            int deltaDist = stops.getLast().distanceTo(depot);
+            distance -= deltaDist;
+            cost -= deltaDist * fileData.getDistanceCost();
+        }
+    }
+    
+    
     
     public int[] getToolLoadAtIndex(int index)
     {
